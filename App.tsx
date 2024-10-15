@@ -1,118 +1,105 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useState } from 'react';
+import { View, TextInput, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = () => {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const onButtonPress = (value) => {
+    
+    if (value === '=') {
+      try {
+        // if (input !== '') {
+          setResult(eval(input));
+        // }
+      } catch (error) {
+        setResult('error');
+      }
+    } else if (value === 'C') {
+      setInput('');
+      setResult('');
+    } else {
+      setInput(input + value);
+    }
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.resultContainer}>
+        <Text style={styles.resultText}>{result}</Text>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          value={input}
+          onChangeText={setInput}
+          keyboardType='numeric'
+          style={styles.inputText}
+          placeholder="0"
+        />
+      </View>
+      <View style={styles.buttonsContainer}>
+        {['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', 'C', '=', '+'].map((item, index) => (
+          <TouchableOpacity
+            style={styles.button}
+            key={index}
+            onPress={() => onButtonPress(item)}
+          >
+            <Text style={styles.buttonText}>{item}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  resultContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 10,
+  },
+  resultText: {
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+  inputContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  inputText: {
+    fontSize: 28,
+    color: '#000',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  button: {
+    backgroundColor: '#007BFF',
+    padding: 20,
+    width: '22%',
+    margin: '1%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontSize: 24,
+    color: '#fff',
+  },
+});
