@@ -18,9 +18,11 @@ const FormInputController: FC<FormProp> = ({name,errors,control,placeholder,prop
       <TextInput
         style={styles.input}
         placeholder= {placeholder}
+        placeholderTextColor={'#fff'}
         value={value}
         onChangeText={onChange}
         onBlur={onBlur}
+        
         {...props}
         />)
       }
@@ -44,8 +46,10 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 15,
         borderRadius:8,
-        // margin: 50
+        
       height: 50,
+      color: '#fff',
+      borderColor: '#fff'
       },
 
 })
