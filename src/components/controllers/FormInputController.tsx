@@ -10,7 +10,7 @@ interface FormProp {
 }
 const FormInputController: FC<FormProp> = ({name,errors,control,placeholder,props}) => {
   return (
-    
+    <>
        <Controller
       name= {name}
       control={control}
@@ -24,9 +24,10 @@ const FormInputController: FC<FormProp> = ({name,errors,control,placeholder,prop
         {...props}
         />)
       }
-    
+  
       />
-     
+        {errors &&errors[name] && <Text style = {styles.textE}>{errors[name]?.message}</Text>}
+     </>
 
   )
 }
@@ -41,10 +42,10 @@ const styles = StyleSheet.create({
         borderWidth:1,
         width: '90%',
         padding: 10,
-        marginTop: 4,
-        borderRadius:10,
+        marginTop: 15,
+        borderRadius:8,
         // margin: 50
-      
+      height: 50,
       },
 
 })
